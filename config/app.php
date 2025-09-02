@@ -78,8 +78,10 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
+    // Make French the default locale for the site. Use APP_LOCALE to override.
+    'locale' => env('APP_LOCALE', 'fr'),
 
+    // Fallback to English when a translation is missing.
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),

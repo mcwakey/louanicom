@@ -13,6 +13,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
+// Language switch route: /lang/{locale} where locale is 'fr' or 'en'
+Route::get('/lang/{locale}', function ($locale) {
+    $available = ['fr', 'en'];
+    if (!in_array($locale, $available)) {
+        abort(404);
+    }
+    // persist to session when available
+    try { session(['locale' => $locale]); } catch (\Exception $__e) {}
+
+    // set a cookie that lasts 1 year so non-session requests can pick it up
+    $response = redirect()->back();
+    return $response->withCookie(cookie('locale', $locale, 525600)); // minutes in a year
+})->name('lang.switch');
+
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     // Admin dashboard landing
     Route::get('/', function () {

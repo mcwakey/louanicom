@@ -2,7 +2,7 @@
 <!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
 <!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
 <!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="{{ app()->getLocale() }}"> <!--<![endif]-->
 
 <head>
 
@@ -15,7 +15,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<title>{{ config('app.name', 'LouaniCom') }} | Home</title>
+<title>{{ config('app.name', 'LouaniCom') }} | {{ __('messages.home') }}</title>
 
 <!-- STYLES -->
 <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -123,14 +123,27 @@
                                 <li><a href="{{ $m->url ?? $m->anchor ?? '#home' }}">{{ $m->title }}</a></li>
                             @endforeach
                         @else
-                            <li class="current"><a href="#home">Home</a></li>
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#portfolio">Experience</a></li>
-                            <li><a href="#partners">Partners</a></li>
-                            <li><a href="#contact">Contact</a></li>
+                            <li class="current"><a href="#home">{{ __('messages.home') }}</a></li>
+                            <li><a href="#about">{{ __('messages.about') }}</a></li>
+                            <li><a href="#portfolio">{{ __('messages.experience') }}</a></li>
+                            <li><a href="#partners">{{ __('messages.partners') }}</a></li>
+                            <li><a href="#contact">{{ __('messages.contact') }}</a></li>
+
+                            <li><div class="menu lang_switch" style="opacity:.6;margin-left:12px;display:flex;gap:6px;align-items:center">
+                                    <a href="{{ route('lang.switch', 'fr') }}" class="text-muted" style="text-decoration:none;">FR</a>
+                                    <span style="opacity:.8">|</span>
+                                    <a href="{{ route('lang.switch', 'en') }}" class="text-muted" style="text-decoration:none;">EN</a>
+                                </div>
+                            </li>
+                            {{-- <li><a href="#contact">{{ __('messages.contact') }}</a></li> --}}
                         @endif
                     </ul>
                 </div>
+                {{-- <div class="menu lang_switch" style="margin-left:12px;display:flex;gap:6px;align-items:center">
+                    <a href="{{ route('lang.switch', 'fr') }}" class="text-muted" style="text-decoration:none;">FR</a>
+                    <span style="opacity:.4">|</span>
+                    <a href="{{ route('lang.switch', 'en') }}" class="text-muted" style="text-decoration:none;">EN</a>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -158,11 +171,11 @@
             <div class="container">
                 <div class="dropdown_inner">
                     <ul class="anchor_nav">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#portfolio">Experience</a></li>
-                        <li><a href="#partners">Partners</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#home">{{ __('messages.home') }}</a></li>
+                        <li><a href="#about">{{ __('messages.about') }}</a></li>
+                        <li><a href="#portfolio">{{ __('messages.experience') }}</a></li>
+                        <li><a href="#partners">{{ __('messages.partners') }}</a></li>
+                        <li><a href="#contact">{{ __('messages.contact') }}</a></li>
                     </ul>
                 </div>
             </div>
@@ -183,17 +196,17 @@
                     </div>
                 @endforeach
             @else
-                <div class="image slide active" style="background-image: url('{{ asset('img/slider/2.jpg') }}');" data-title="{{ $hero->title ?? 'Your Name' }}" data-description="{{ $hero->description ?? 'Web & Mobile App Developer' }}"></div>
+                <div class="image slide active" style="background-image: url('{{ asset('img/slider/2.jpg') }}');" data-title="{{ $hero->title ?? __('messages.default_name') }}" data-description="{{ $hero->description ?? __('messages.default_job') }}"></div>
             @endif
             <div class="overlay"></div>
         </div>
         <div class="content">
             <div class="container">
                 <div class="details" data-animation="toTop"> <!-- Animation Values: toTop, toRight, scale, rotate -->
-                    <h3 class="fn_animation name">{{ $hero->title ?? 'Your Name' }}</h3>
-                    <span class="fn_animation job">{{ $hero->description ?? 'Web & Mobile App Developer' }}</span>
+                    <h3 class="fn_animation name">{{ $hero->title ?? __('messages.default_name') }}</h3>
+                    <span class="fn_animation job">{{ $hero->description ?? __('messages.default_job') }}</span>
                 </div>
-                <div class="hero-dots" style="text-align:center;margin-top:18px">
+                <div class="hero-dots" style="text-align:center">
                     @if(isset($heroes) && $heroes->count())
                         @foreach($heroes as $i => $h)
                             <button class="dot {{ $i === 0 ? 'active' : '' }}" data-index="{{ $i }}" aria-label="Go to slide {{ $i+1 }}"></button>
@@ -227,16 +240,16 @@
                     </div>
                     <div class="right wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay=".2s">
                         <div class="grax_tm_title_holder">
-                            <h3>{{ $about->title ?? 'About' }} <span>Me</span></h3>
+                            <h3>{{ __('messages.about') }} <span>{{ __('messages.me') }}</span></h3>
                         </div>
                         <div class="text">
                             <p>{!! nl2br(e($about->description ?? 'Write something about yourself.')) !!}</p>
                         </div>
-                        <div class="grax_tm_button">
+                            <div class="grax_tm_button">
                             @if(!empty($about->action_link))
                                 <a href="{{ $about->action_link }}">{{ $about->action_text ?? 'Action' }}</a>
                             @else
-                                <a href="#">{{ $about->action_text ?? 'Download CV' }}</a>
+                                <a href="#">{{ $about->action_text ?? __('messages.download_cv') }}</a>
                             @endif
                         </div>
                     </div>
@@ -251,7 +264,7 @@
         <div class="grax_tm_portfolio">
             <div class="container">
                 <div class="grax_tm_title_holder">
-                    <h3>Selected <span>Works</span></h3>
+                    <h3>{{ __('messages.selected') }} <span>{{ __('messages.works') }}</span></h3>
                 </div>
                 <div class="portfolio_list">
                     <ul class="gallery_zoom my_waypoint">
@@ -275,7 +288,7 @@
                             </div>
                         </li>
                         @empty
-                        <li>No experiences yet.</li>
+                        <li>{{ __('messages.no_experiences') }}</li>
                         @endforelse
                     </ul>
                 </div>
@@ -305,10 +318,10 @@
 	<div class="grax_tm_progress_part">
 		<div class="container">
 			<div class="part_inner">
-				<div class="left wow fadeInLeft" data-wow-duration="1.5s">
-					<h3>I have high skills in developing and programming</h3>
-					<p>I was doing everything in my power to provide me with all the experiences to provide cost-effective and high quality products to satisfy my customers all over the world</p>
-				</div>
+                <div class="left wow fadeInLeft" data-wow-duration="1.5s">
+                    <h3>{{ __('messages.skills_title') }}</h3>
+                    <p>{{ __('messages.skills_desc') }}</p>
+                </div>
 				<div class="right wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay=".2s">
 					<div class="kioto_progress">
 						<div class="progress_inner" data-value="95">
@@ -335,12 +348,12 @@
 		<div class="grax_tm_talk">
 			<div class="container">
 				<div class="talk_inner">
-					<div class="text wow fadeInLeft" data-wow-duration="1.5s">
-						<h3><span>Always around to make you great</span></h3>
-					</div>
-					<div class="button wow fadeInLeft anchor" data-wow-duration="1.5s" data-wow-delay=".2s">
-						<a href="#contact">Contact Us</a>
-					</div>
+                    <div class="text wow fadeInLeft" data-wow-duration="1.5s">
+                        <h3><span>{{ __('messages.always_around') }}</span></h3>
+                    </div>
+                    <div class="button wow fadeInLeft anchor" data-wow-duration="1.5s" data-wow-delay=".2s">
+                        <a href="#contact">{{ __('messages.contact') }}</a>
+                    </div>
 				</div>
 			</div>
 		</div>
@@ -352,7 +365,7 @@
 		<div class="grax_tm_news">
 			<div class="container">
 				<div class="grax_tm_title_holder">
-					<h3>Our <span>parteners</span></h3>
+					<h3>{{ __('messages.our') }} <span>{{ __('messages.partners') }}</span></h3>
 				</div>
 				<div class="news_list">
 					<div id="partners-scatter" class="relative w-full h-72 md:h-96 lg:h-[36rem] overflow-hidden bg-transparent">
@@ -375,9 +388,9 @@
 
     <div class="grax_tm_contact" id="contact">
 		<div class="container">
-			<div class="grax_tm_title_holder">
-				<h3>Get in <span>Touch</span></h3>
-			</div>
+            <div class="grax_tm_title_holder">
+                <h3>{{ __('messages.get_in_touch') }} <span>{{ __('messages.get_in_touch') === 'Get in Touch' ? 'Touch' : 'Contact' }}</span></h3>
+            </div>
 			<div class="contact_inner">
 				<div class="left wow fadeInLeft" data-wow-duration="1s">
 					<div class="text">
@@ -388,37 +401,37 @@
                             <li>
                                 <div class="list_inner">
                                     <img class="svg" src="img/svg/location.svg" alt="" />
-                                    <p><span class="first">Address:</span><span class="second">{{ $settings['contact_address'] ?? 'Brook 103, New York, USA' }}</span></p>
+                                    <p><span class="first">{{ __('messages.address') }}</span><span class="second">{{ $settings['contact_address'] ?? 'Brook 103, New York, USA' }}</span></p>
                                 </div>
                             </li>
                             <li>
                                 <div class="list_inner">
                                     <img class="svg" src="img/svg/email.svg" alt="" />
-                                    <p><span class="first">Email:</span><span class="second"><a href="mailto:{{ $settings['contact_email'] ?? 'example@gmail.com' }}">{{ $settings['contact_email'] ?? 'example@gmail.com' }}</a></span></p>
+                                    <p><span class="first">{{ __('messages.email') }}</span><span class="second"><a href="mailto:{{ $settings['contact_email'] ?? 'example@gmail.com' }}">{{ $settings['contact_email'] ?? 'example@gmail.com' }}</a></span></p>
                                 </div>
                             </li>
                             <li>
                                 <div class="list_inner">
                                     <img class="svg" src="img/svg/phone.svg" alt="" />
-                                    <p><span class="first">Phone:</span><span class="second"><a href="tel:{{ $settings['contact_phone'] ?? '+77 033 442 55 57' }}">{{ $settings['contact_phone'] ?? '+77 033 442 55 57' }}</a></span></p>
+                                    <p><span class="first">{{ __('messages.phone') }}</span><span class="second"><a href="tel:{{ $settings['contact_phone'] ?? '+77 033 442 55 57' }}">{{ $settings['contact_phone'] ?? '+77 033 442 55 57' }}</a></span></p>
                                 </div>
                             </li>
                             <li>
                                 <div class="list_inner">
                                     <img class="svg" src="img/svg/social/dribbble.svg" alt="" />
-                                    <p><span class="first">Website:</span><span class="second"><a href="{{ $settings['social_facebook'] ?? '#' }}">{{ $settings['social_facebook'] ? (parse_url($settings['social_facebook'], PHP_URL_HOST) ?? $settings['social_facebook']) : 'www.myaddress.com' }}</a></span></p>
+                                    <p><span class="first">{{ __('messages.website') }}</span><span class="second"><a href="{{ $settings['social_facebook'] ?? '#' }}">{{ $settings['social_facebook'] ? (parse_url($settings['social_facebook'], PHP_URL_HOST) ?? $settings['social_facebook']) : 'www.myaddress.com' }}</a></span></p>
                                 </div>
                             </li>
                             <li>
                                 <div class="list_inner">
                                     <img class="svg" src="img/svg/social/twitter.svg" alt="" />
-                                    <p><span class="first">Twitter:</span><span class="second"><a href="{{ $settings['social_twitter'] ? (strpos($settings['social_twitter'],'@')===0 ? 'https://twitter.com/'.ltrim($settings['social_twitter'],'@') : $settings['social_twitter']) : '#' }}">{{ $settings['social_twitter'] ?? '@twitternickname' }}</a></span></p>
+                                    <p><span class="first">{{ __('messages.twitter') }}</span><span class="second"><a href="{{ $settings['social_twitter'] ? (strpos($settings['social_twitter'],'@')===0 ? 'https://twitter.com/'.ltrim($settings['social_twitter'],'@') : $settings['social_twitter']) : '#' }}">{{ $settings['social_twitter'] ?? '@twitternickname' }}</a></span></p>
                                 </div>
                             </li>
                             <li>
                                 <div class="list_inner">
                                     <img class="svg" src="img/svg/social/facebook.svg" alt="" />
-                                    <p><span class="first">Facebook:</span><span class="second"><a href="{{ $settings['social_facebook'] ?? '#' }}">{{ $settings['social_facebook'] ?? '@facebooknickname' }}</a></span></p>
+                                    <p><span class="first">{{ __('messages.facebook') }}</span><span class="second"><a href="{{ $settings['social_facebook'] ?? '#' }}">{{ $settings['social_facebook'] ?? '@facebooknickname' }}</a></span></p>
                                 </div>
                             </li>
 						</ul>
@@ -439,8 +452,8 @@
 					<div class="fields">
                         <form action="{{ route('contact.store') }}" method="post" class="contact_form" id="contact_form">
                             @csrf
-							<div class="returnmessage" data-success="Your message has been received, We will contact you soon."></div>
-							<div class="empty_notice"><span>Please fill out the form on this section to contact with me. Or call between {{ $settings['contact_hours'] ?? '9:00 a.m. and 8:00 p.m. ET, Monday through Friday' }}</span></div>
+                            <div class="returnmessage" data-success="{{ __('messages.send_message') }}"></div>
+                            <div class="empty_notice"><span>{{ __('messages.contact') }}. {{ $settings['contact_hours'] ?? '9:00 a.m. and 8:00 p.m. ET, Monday through Friday' }}</span></div>
 							<div class="first">
 								<ul>
 									<li>
@@ -455,8 +468,8 @@
                             <textarea id="message" name="message" placeholder="Message" required></textarea>
 							</div>
 							<div class="grax_tm_button">
-                            <button id="send_message" type="submit" class="btn">Send Message</button>
-								<a id="send_message" href="#">Send Message</a>
+                            <button id="send_message" type="submit" class="btn">{{ __('messages.send_message') }}</button>
+                                <a id="send_message" href="#">{{ __('messages.send_message') }}</a>
 							</div>
 
 							<!-- If you want to change mail address to yours, please open modal.php and go to line 4 -->
@@ -484,8 +497,8 @@
                     <div class="fields">
                         <form action="{{ route('contact.store') }}" method="post" class="contact_form" id="contact_form">
                             @csrf
-                            <div class="returnmessage" data-success="Your message has been received, We will contact you soon."></div>
-                            <div class="empty_notice"><span>Please Fill Required Fields</span></div>
+                            <div class="returnmessage" data-success="{{ __('messages.send_message') }}"></div>
+                            <div class="empty_notice"><span>{{ __('messages.contact') }}: {{ __('messages.send_message') }}</span></div>
                             <div class="first">
                                 <ul>
                                     <li><input name="name" type="text" placeholder="Your Name" required></li>
@@ -540,13 +553,13 @@
                         </ul>
                     </div>
                     <div class="copy wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".4s">
-                        <p>&copy; Copyright {{ date('Y') }} {{ config('app.name','Marketify') }} by <a href="https://clicksoftwaregh.com">ClickSoftwareGH</a></p>
+            <p>&copy; Copyright {{ date('Y') }} {{ config('app.name','Marketify') }} by <a href="https://clicksoftwaregh.com">ClickSoftwareGH</a></p>
                         {{-- Admin quick link: goes to admin dashboard when logged in, otherwise to login page --}}
                         <div style="margin-top:6px">
                             @if(auth()->check())
-                                <a href="{{ route('admin.heroes.index') }}" class="text-muted">Admin Portal</a>
+                <a href="{{ route('admin.heroes.index') }}" class="text-muted">{{ auth()->user()->name ?? 'Admin' }}</a>
                             @else
-                                <a href="{{ route('login') }}" class="text-muted">Admin Login</a>
+                <a href="{{ route('login') }}" class="text-muted">{{ __('messages.login') ?? 'Admin Login' }}</a>
                             @endif
                         </div>
                     </div>
@@ -563,7 +576,7 @@
 
     <!-- START: Page Progress -->
     <div class="progressbar">
-        <a href="#"><span class="text">To Top</span></a>
+    <a href="#"><span class="text">{{ __('messages.to_top') }}</span></a>
         <span class="line"></span>
     </div>
     <!-- END: Page Progress -->
@@ -578,10 +591,13 @@
 
 <!-- Hero slider (simple jQuery) -->
 <style>
+    /* make hero a positioning context so dots can be placed at the bottom */
+    .grax_tm_hero { position: relative; }
     .grax_tm_hero .bg { position: relative; overflow: hidden; }
     .grax_tm_hero .bg .slide { position: absolute; inset:0; background-size:cover; background-position:center; opacity:0; transition:opacity .6s ease-in-out; }
     .grax_tm_hero .bg .slide.active{ opacity:1; z-index:1 }
-    .hero-dots { display:flex; justify-content:center; gap:8px; margin-top:16px }
+    /* place dots at bottom center of the hero */
+    .hero-dots { position: absolute; left: 50%; transform: translateX(-50%); bottom: 18px; display:flex; justify-content:center; gap:8px; margin:0; z-index:60; }
     .hero-dots .dot{ width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.5); border:0; cursor:pointer }
     .hero-dots .dot.active{ background:rgba(255,255,255,0.95) }
 
